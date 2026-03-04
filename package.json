@@ -9,7 +9,7 @@
     "build": "tsc",
     "check": "biome check",
     "check:w": "biome check --write",
-    "check:sw": "biome check --stage --write",
+    "check:sw": "biome check --staged --write",
     "prepublish": "yarn build"
   },
   "peerDependencies": {
