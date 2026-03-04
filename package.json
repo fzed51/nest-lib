@@ -10,7 +10,15 @@
     "check": "biome check",
     "check:w": "biome check --write",
     "check:sw": "biome check --staged --write",
-    "prepublish": "yarn build"
+    "prepublish": "yarn build",
+    "ver:maj": "npm version major",
+    "ver:min": "npm version minor",
+    "ver:pat": "npm version patch",
+    "git-push": "git push && git push --tags",
+    "publish" : "npm publish --access public",
+    "publish:maj": "yarn ver:maj && yarn git-push && yarn publish",
+    "publish:min": "yarn ver:min && yarn git-push && yarn publish",
+    "publish:pat": "yarn ver:pat && yarn git-push && yarn publish"
   },
   "peerDependencies": {
     "@nestjs/common": "^11.0.0",
