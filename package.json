@@ -1,6 +1,6 @@
 {
   "name": "@fzed51/nest-lib",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Collection de librairies pour NestJs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -14,7 +14,7 @@
     "ver:min": "npm version minor",
     "ver:pat": "npm version patch",
     "git-push": "git push && git push --tags",
-    "publish" : "npm publish --access public",
+    "publish": "npm publish --access public",
     "publish:maj": "yarn ver:maj && yarn git-push && yarn build && yarn publish",
     "publish:min": "yarn ver:min && yarn git-push && yarn build && yarn publish",
     "publish:pat": "yarn ver:pat && yarn git-push && yarn build && yarn publish"
