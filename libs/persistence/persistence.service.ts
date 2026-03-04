@@ -2,24 +2,18 @@ import { createHash } from "node:crypto";
 import { PathLike } from "node:fs";
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
-import { Injectable, Logger } from "@nestjs/common";
+import { Logger } from "@nestjs/common";
+import type { PersistedData, PersistenceOptions } from "./types";
 
-export interface StorageOptions {
-  storageDir?: string;
-}
-
-export interface StoredData<T = unknown> {
-  data: T;
-  timestamp: number;
-  checksum: string;
-}
-
-@Injectable()
+/**
+ * Service de persistance pour stocker des données sérialisables de manière
+ * sécurisée
+ */
 export class PersistenceService<T> {
   protected logger = new Logger(PersistenceService.name);
   private readonly storageDir: PathLike;
 
-  constructor(options: StorageOptions = {}) {
+  constructor(options: PersistenceOptions = {}) {
     this.storageDir = options.storageDir || path.join(process.cwd(), "storage");
     void this.ensureStorageDirectory();
   }
@@ -34,7 +28,7 @@ export class PersistenceService<T> {
       this.validateKey(key);
       this.validateSerializableData(data);
 
-      const storedData: StoredData<T> = {
+      const storedData: PersistedData<T> = {
         data,
         timestamp: Date.now(),
         checksum: this.generateChecksum(data),
@@ -67,7 +61,7 @@ export class PersistenceService<T> {
    * Récupère les données stockées avec leurs métadonnées
    * @param key Clé unique des données à récupérer
    */
-  async retrieveStoredData(key: string): Promise<StoredData<T> | null> {
+  async retrieveStoredData(key: string): Promise<PersistedData<T> | null> {
     try {
       this.validateKey(key);
 
@@ -82,7 +76,7 @@ export class PersistenceService<T> {
       }
 
       const fileContent = await fs.readFile(filePath, "utf8");
-      const storedData = JSON.parse(fileContent) as StoredData<T>;
+      const storedData = JSON.parse(fileContent) as PersistedData<T>;
 
       // Vérifier l'intégrité des données
       if (!this.verifyChecksum(storedData.data, storedData.checksum)) {
@@ -182,23 +176,27 @@ export class PersistenceService<T> {
   /**
    * Nettoie les données expirées
    * @param maxAge Âge maximum en millisecondes
+   * @param key Clé spécifique à nettoyer (optionnel)
    */
-  async cleanup(maxAge: number): Promise<number> {
+  async cleanup(maxAge: number, key?: string): Promise<number> {
     try {
       const keys = await this.listKeys();
       const now = Date.now();
       let removedCount = 0;
 
-      for (const key of keys) {
+      for (const currentKey of keys) {
+        if (key && currentKey !== key) {
+          continue;
+        }
         try {
-          const storedData = await this.retrieveStoredData(key);
+          const storedData = await this.retrieveStoredData(currentKey);
           if (storedData && now - storedData.timestamp > maxAge) {
-            await this.remove(key);
+            await this.remove(currentKey);
             removedCount++;
           }
         } catch (error) {
           this.logger.warn(
-            `Failed to process key ${key} during cleanup:`,
+            `Failed to process key ${currentKey} during cleanup:`,
             error,
           );
         }
