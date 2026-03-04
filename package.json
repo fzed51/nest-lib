@@ -1,0 +1,26 @@
+{
+  "name": "@fzed51/nest-lib",
+  "version": "1.0.0",
+  "description": "Collection de librairie pour NestJs",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "packageManager": "yarn@4.9.2",
+  "scripts": {
+    "build": "tsc",
+    "check": "biome check",
+    "check:w": "biome check --write",
+    "check:sw": "biome check --stage --write",
+    "prepublish": "yarn build"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/core": "^11.0.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.5",
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/core": "^11.0.0",
+    "@types/node": "24",
+    "typescript": "^5.9.3"
+  }
+}
