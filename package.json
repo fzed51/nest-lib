@@ -14,10 +14,10 @@
     "ver:min": "npm version minor",
     "ver:pat": "npm version patch",
     "git-push": "git push && git push --tags",
-    "publish": "npm publish --access public",
-    "publish:maj": "yarn ver:maj && yarn git-push && yarn build && yarn publish",
-    "publish:min": "yarn ver:min && yarn git-push && yarn build && yarn publish",
-    "publish:pat": "yarn ver:pat && yarn git-push && yarn build && yarn publish"
+    "_publish": "npm publish --access public",
+    "publish:maj": "yarn ver:maj && yarn git-push && yarn build && yarn _publish",
+    "publish:min": "yarn ver:min && yarn git-push && yarn build && yarn _publish",
+    "publish:pat": "yarn ver:pat && yarn git-push && yarn build && yarn _publish"
   },
   "files": [
     "package.json",
