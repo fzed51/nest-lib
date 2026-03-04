@@ -1,1 +1,1 @@
-export * from './persistence.service';
+export * from "./persistence.service";
