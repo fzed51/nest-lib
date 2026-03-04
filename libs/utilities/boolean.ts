@@ -10,4 +10,4 @@ export function toBoolean(value: unknown): boolean {
     return ["1", "t", "y", "o"].includes(normalized);
   }
   return false;
-}   
+}

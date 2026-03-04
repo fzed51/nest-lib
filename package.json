@@ -1,7 +1,7 @@
 {
   "name": "@fzed51/nest-lib",
   "version": "1.0.0",
-  "description": "Collection de librairie pour NestJs",
+  "description": "Collection de librairies pour NestJs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "packageManager": "yarn@4.9.2",
